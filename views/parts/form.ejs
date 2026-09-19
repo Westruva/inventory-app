@@ -1,0 +1,57 @@
+<%- include('../partials/header', { title: part && part.part_id ? 'Edit Part' : 'New Part' }) %>
+
+<h1><%= part && part.part_id ? 'Edit Part' : 'New Part' %></h1>
+
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+	<ul class="error-list">
+		<% errors.forEach(e => { %>
+			<li><%= e.msg %></li>
+		<% }) %>
+	</ul>
+<% } %>
+
+<form method="post" action="<%= part && part.part_id ? `/parts/${part.part_id}/update` : '/parts' %>" class="form">
+	<label>
+		Part Number
+		<input type="text" name="part_number" value="<%= part ? part.part_number : '' %>" required />
+	</label>
+	<label>
+		Brand
+		<input type="text" name="brand" value="<%= part ? (part.brand || '') : '' %>" />
+	</label>
+	<label>
+		Name
+		<input type="text" name="part_name" value="<%= part ? part.part_name : '' %>" required />
+	</label>
+	<label>
+		Category
+		<input type="text" name="category" value="<%= part ? (part.category || '') : '' %>" />
+	</label>
+	<label>
+		Cost
+		<input type="number" step="0.01" name="cost" value="<%= part ? part.cost : '' %>" required />
+	</label>
+	<label>
+		Retail Price
+		<input type="number" step="0.01" name="retail_price" value="<%= part ? part.retail_price : '' %>" required />
+	</label>
+	<label>
+		Quantity On Hand
+		<input type="number" name="quantity_on_hand" value="<%= part ? part.quantity_on_hand : 0 %>" />
+	</label>
+	<label>
+		Reorder Level
+		<input type="number" name="reorder_level" value="<%= part ? part.reorder_level : 5 %>" />
+	</label>
+	<label>
+		Location Bin
+		<input type="text" name="location_bin" value="<%= part ? (part.location_bin || '') : '' %>" />
+	</label>
+
+	<div class="form-actions">
+		<button type="submit"><%= part && part.part_id ? 'Save Changes' : 'Create Part' %></button>
+		<a href="<%= part && part.part_id ? `/parts/${part.part_id}` : '/parts' %>">Cancel</a>
+	</div>
+</form>
+
+<%- include('../partials/footer') %>

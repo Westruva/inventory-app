@@ -1,0 +1,55 @@
+<%- include('../partials/header', { title: part.part_name }) %>
+
+<div class="page-header">
+	<h1><%= part.part_name %> <span class="muted">(<%= part.part_number %>)</span></h1>
+	<div>
+		<a class="btn" href="/parts/<%= part.part_id %>/edit">Edit</a>
+		<form method="post" action="/parts/<%= part.part_id %>/delete" class="inline" onsubmit="return confirm('Delete this part?')">
+			<button type="submit" class="btn danger">Delete</button>
+		</form>
+	</div>
+</div>
+
+<dl class="details">
+	<dt>Brand</dt><dd><%= part.brand || '-' %></dd>
+	<dt>Category</dt><dd><%= part.category || '-' %></dd>
+	<dt>Cost</dt><dd>$<%= part.cost %></dd>
+	<dt>Retail Price</dt><dd>$<%= part.retail_price %></dd>
+	<dt>Quantity On Hand</dt><dd><%= part.quantity_on_hand %></dd>
+	<dt>Reorder Level</dt><dd><%= part.reorder_level %></dd>
+	<dt>Location Bin</dt><dd><%= part.location_bin || '-' %></dd>
+</dl>
+
+<h2>Fits These Vehicles</h2>
+<% if (fittedVehicles.length === 0) { %>
+	<p>No vehicles linked yet.</p>
+<% } else { %>
+	<ul class="linked-list">
+		<% fittedVehicles.forEach(v => { %>
+			<li>
+				<a href="/vehicles/<%= v.vehicle_id %>"><%= v.year %> <%= v.make %> <%= v.model %><%= v.engine_trim ? ` (${v.engine_trim})` : '' %></a>
+				<form method="post" action="/fitment/<%= v.fitment_id %>/delete" class="inline" onsubmit="return confirm('Remove this fitment?')">
+					<input type="hidden" name="redirect_to" value="/parts/<%= part.part_id %>" />
+					<button type="submit" class="btn small danger">Remove</button>
+				</form>
+			</li>
+		<% }) %>
+	</ul>
+<% } %>
+
+<h3>Link a Vehicle</h3>
+<form method="post" action="/fitment" class="inline-form">
+	<input type="hidden" name="part_id" value="<%= part.part_id %>" />
+	<input type="hidden" name="redirect_to" value="/parts/<%= part.part_id %>" />
+	<select name="vehicle_id" required>
+		<option value="" disabled selected>Select a vehicle</option>
+		<% allVehicles.forEach(v => { %>
+			<option value="<%= v.vehicle_id %>"><%= v.year %> <%= v.make %> <%= v.model %></option>
+		<% }) %>
+	</select>
+	<button type="submit">Link</button>
+</form>
+
+<p><a href="/parts">Back to parts</a></p>
+
+<%- include('../partials/footer') %>

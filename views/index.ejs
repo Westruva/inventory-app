@@ -1,0 +1,46 @@
+<%- include('partials/header', { title: 'Dashboard' }) %>
+
+<h1>Dashboard</h1>
+
+<div class="stats">
+	<div class="stat-card">
+		<span class="stat-number"><%= partsCount %></span>
+		<span class="stat-label">Parts</span>
+	</div>
+	<div class="stat-card">
+		<span class="stat-number"><%= vehiclesCount %></span>
+		<span class="stat-label">Vehicles</span>
+	</div>
+	<div class="stat-card">
+		<span class="stat-number"><%= lowStock.length %></span>
+		<span class="stat-label">Low Stock</span>
+	</div>
+</div>
+
+<h2>Low Stock Parts</h2>
+<% if (lowStock.length === 0) { %>
+	<p>Nothing needs reordering right now.</p>
+<% } else { %>
+	<table>
+		<thead>
+			<tr>
+				<th>Part #</th>
+				<th>Name</th>
+				<th>On Hand</th>
+				<th>Reorder Level</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% lowStock.forEach(part => { %>
+				<tr>
+					<td><a href="/parts/<%= part.part_id %>"><%= part.part_number %></a></td>
+					<td><%= part.part_name %></td>
+					<td class="warn"><%= part.quantity_on_hand %></td>
+					<td><%= part.reorder_level %></td>
+				</tr>
+			<% }) %>
+		</tbody>
+	</table>
+<% } %>
+
+<%- include('partials/footer') %>

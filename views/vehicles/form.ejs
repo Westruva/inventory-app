@@ -1,0 +1,37 @@
+<%- include('../partials/header', { title: vehicle && vehicle.vehicle_id ? 'Edit Vehicle' : 'New Vehicle' }) %>
+
+<h1><%= vehicle && vehicle.vehicle_id ? 'Edit Vehicle' : 'New Vehicle' %></h1>
+
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+	<ul class="error-list">
+		<% errors.forEach(e => { %>
+			<li><%= e.msg %></li>
+		<% }) %>
+	</ul>
+<% } %>
+
+<form method="post" action="<%= vehicle && vehicle.vehicle_id ? `/vehicles/${vehicle.vehicle_id}/update` : '/vehicles' %>" class="form">
+	<label>
+		Year
+		<input type="number" name="year" value="<%= vehicle ? vehicle.year : '' %>" required />
+	</label>
+	<label>
+		Make
+		<input type="text" name="make" value="<%= vehicle ? vehicle.make : '' %>" required />
+	</label>
+	<label>
+		Model
+		<input type="text" name="model" value="<%= vehicle ? vehicle.model : '' %>" required />
+	</label>
+	<label>
+		Engine/Trim
+		<input type="text" name="engine_trim" value="<%= vehicle ? (vehicle.engine_trim || '') : '' %>" />
+	</label>
+
+	<div class="form-actions">
+		<button type="submit"><%= vehicle && vehicle.vehicle_id ? 'Save Changes' : 'Create Vehicle' %></button>
+		<a href="<%= vehicle && vehicle.vehicle_id ? `/vehicles/${vehicle.vehicle_id}` : '/vehicles' %>">Cancel</a>
+	</div>
+</form>
+
+<%- include('../partials/footer') %>

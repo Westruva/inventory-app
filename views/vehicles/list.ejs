@@ -1,0 +1,32 @@
+<%- include('../partials/header', { title: 'Vehicles' }) %>
+
+<div class="page-header">
+	<h1>Vehicles</h1>
+	<a class="btn" href="/vehicles/new">+ New Vehicle</a>
+</div>
+
+<table>
+	<thead>
+		<tr>
+			<th>Year</th>
+			<th>Make</th>
+			<th>Model</th>
+			<th>Engine/Trim</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% vehicles.forEach(v => { %>
+			<tr>
+				<td><a href="/vehicles/<%= v.vehicle_id %>"><%= v.year %></a></td>
+				<td><%= v.make %></td>
+				<td><%= v.model %></td>
+				<td><%= v.engine_trim || '-' %></td>
+			</tr>
+		<% }) %>
+		<% if (vehicles.length === 0) { %>
+			<tr><td colspan="4">No vehicles found.</td></tr>
+		<% } %>
+	</tbody>
+</table>
+
+<%- include('../partials/footer') %>
