@@ -69,3 +69,7 @@ Form submissions are validated and sanitized with `express-validator`; invalid i
 | GET    | /health                 | Health check                       |
 
 All API routes validate request bodies/params with `express-validator` and respond `400` with an `errors` array on invalid input.
+
+## Deployed at https://inventory-app-production-2eb0.up.railway.app/
+
+![inventory app screenshot](./public/inventory-app.png)
